@@ -299,7 +299,7 @@ button {
 button:hover {
     background: linear-gradient(
         135deg,
-        #3498db,
+        #d213a9,
         #2471a3
     );
     transform: translateY(-2px);
