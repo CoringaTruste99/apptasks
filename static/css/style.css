@@ -565,3 +565,15 @@ table tr:hover {
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
+
+/* Login: panel más pequeño y centrado */
+.panel-2 {
+    max-width: 420px;
+    margin: 40px auto;
+}
+
+.brocontainer {
+    max-width: 520px; /* un poco más grande que el panel (420px) */
+    margin: 0 auto;
+    padding: 32px;
+}
