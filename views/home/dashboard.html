@@ -82,7 +82,7 @@
                 </div>
             </form>
             <div class="button-group">
-                <button type="button" onclick="clearTaskForm()">Limpiar</button>
+                <button type="button" id="clearTaskBtn">Limpiar</button>
             </div>
         </div>
         <div class="table-section">
@@ -113,8 +113,9 @@
                         <td>{{ usr.username if usr else 'Sin asignar' }}</td>
                         <td>{{ t.dueDate or 'Sin fecha' }}</td>
                         <td>
-                            <button type="button" onclick="selectTask({{ t.id }})">Editar</button>
-                            <form method="post" action="{{ url_for('tasks.delete', tid=t.id) }}" style="display:inline;" onsubmit="return confirm('¿Eliminar tarea?');">
+                            <!-- SOLUCIÓN: Usar data-task-id en lugar de onclick -->
+                            <button type="button" class="btn-edit-task" data-task-id="{{ t.id }}">Editar</button>
+                            <form method="post" action="{{ url_for('tasks.delete', tid=t.id) }}" style="display:inline;" class="delete-form">
                                 <button type="submit">Eliminar</button>
                             </form>
                         </td>
@@ -144,8 +145,8 @@
                     <textarea name="projectDescription" id="projectDescription" rows="3"></textarea>
                 </div>
                 <div class="button-group">
-                    <button type="button" onclick="submitProjectAdd()">Agregar</button>
-                    <button type="button" id="projectUpdateBtn" onclick="submitProjectUpdate()" style="display:none;">Actualizar</button>
+                    <button type="button" id="projectAddBtn">Agregar</button>
+                    <button type="button" id="projectUpdateBtn" style="display:none;">Actualizar</button>
                 </div>
             </form>
         </div>
@@ -161,8 +162,9 @@
                         <td>{{ p.name }}</td>
                         <td>{{ p.description or '' }}</td>
                         <td>
-                            <button type="button" onclick="selectProject({{ p.id }})">Seleccionar</button>
-                            <form method="post" action="{{ url_for('projects.delete', pid=p.id) }}" style="display:inline;" onsubmit="return confirm('¿Eliminar proyecto?');">
+                            <!-- SOLUCIÓN: Usar data-project-id -->
+                            <button type="button" class="btn-edit-project" data-project-id="{{ p.id }}">Seleccionar</button>
+                            <form method="post" action="{{ url_for('projects.delete', pid=p.id) }}" style="display:inline;" class="delete-form">
                                 <button type="submit">Eliminar</button>
                             </form>
                         </td>
@@ -316,76 +318,19 @@
         </div>
     </div>
 </div>
+
+<!-- Datos para JavaScript (ocultos) -->
+<div id="app-data" style="display: none;"
+     data-tasks='{{ tasks|tojson }}'
+     data-projects='{{ projects|tojson }}'
+     data-users='{{ users|tojson }}'
+     data-task-update-url='{{ url_for("tasks.update", tid=0) }}'
+     data-task-add-url='{{ url_for("tasks.add") }}'
+     data-project-update-url='{{ url_for("projects.update", pid=0) }}'
+     data-project-add-url='{{ url_for("projects.add") }}'>
+</div>
 {% endblock %}
+
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/app.js') }}"></script>
-<script>
-document.querySelectorAll('.tab-button').forEach(btn => {
-    btn.addEventListener('click', function() {
-        const tabName = this.dataset.tab;
-        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-        document.getElementById(tabName + 'Tab').classList.add('active');
-        this.classList.add('active');
-    });
-});
-
-const tasksData = {{ tasks|tojson }};
-const projectsData = {{ projects|tojson }};
-const usersData = {{ users|tojson }};
-
-function selectTask(id) {
-    const task = tasksData.find(t => t.id === id);
-    if (!task) return;
-    document.getElementById('taskTitle').value = task.title || '';
-    document.getElementById('taskDescription').value = task.description || '';
-    document.getElementById('taskStatus').value = task.status || 'Pendiente';
-    document.getElementById('taskPriority').value = task.priority || 'Media';
-    document.getElementById('taskProject').value = task.projectId || '';
-    document.getElementById('taskAssigned').value = task.assignedTo || '';
-    document.getElementById('taskDueDate').value = task.dueDate || '';
-    document.getElementById('taskHours').value = task.estimatedHours || '';
-    const form = document.getElementById('taskForm');
-    form.action = '{{ url_for("tasks.update", tid=0) }}'.replace('/0', '/' + id);
-    form.querySelector('button[type=submit]').textContent = 'Actualizar';
-}
-
-function clearTaskForm() {
-    document.getElementById('taskTitle').value = '';
-    document.getElementById('taskDescription').value = '';
-    document.getElementById('taskStatus').value = 'Pendiente';
-    document.getElementById('taskPriority').value = 'Media';
-    document.getElementById('taskProject').selectedIndex = 0;
-    document.getElementById('taskAssigned').selectedIndex = 0;
-    document.getElementById('taskDueDate').value = '';
-    document.getElementById('taskHours').value = '';
-    document.getElementById('taskForm').action = '{{ url_for("tasks.add") }}';
-    document.getElementById('taskForm').querySelector('button[type=submit]').textContent = 'Agregar';
-}
-
-function selectProject(id) {
-    const p = projectsData.find(pr => pr.id === id);
-    if (!p) return;
-    document.getElementById('projectId').value = p.id;
-    document.getElementById('projectName').value = p.name || '';
-    document.getElementById('projectDescription').value = p.description || '';
-    document.getElementById('projectUpdateBtn').style.display = 'inline';
-}
-
-function submitProjectAdd() {
-    const form = document.getElementById('projectForm');
-    form.action = '{{ url_for("projects.add") }}';
-    form.method = 'post';
-    form.submit();
-}
-
-function submitProjectUpdate() {
-    const id = document.getElementById('projectId').value;
-    if (!id) return;
-    const form = document.getElementById('projectForm');
-    form.action = '{{ url_for("projects.update", pid=0) }}'.replace('/0', '/' + id);
-    form.method = 'post';
-    form.submit();
-}
-</script>
 {% endblock %}
