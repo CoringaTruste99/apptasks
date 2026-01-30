@@ -1,0 +1,22 @@
+{% extends "layouts/base.html" %}
+{% block title %}Login - Task Manager Legacy{% endblock %}
+{% block content %}
+<h1>Task Manager Legacy</h1>
+<div class="panel">
+    <h2>Login</h2>
+    {% if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
+    <form method="post" action="{{ url_for('auth.login') }}">
+        <div class="form-group">
+            <label>Usuario:</label>
+            <input type="text" name="username" value="admin" required>
+        </div>
+        <div class="form-group">
+            <label>Contraseña:</label>
+            <input type="password" name="password" value="admin" required>
+        </div>
+        <button type="submit">Entrar</button>
+    </form>
+</div>
+{% endblock %}
