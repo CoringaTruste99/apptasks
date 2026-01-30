@@ -1,17 +1,6 @@
-# Render Blueprint - Task Manager Legacy (Flask MVC)
-# En Render: New > Blueprint y conectar este repo, o crear Web Service y usar:
-# Build Command: pip install -r requirements.txt
-# Start Command: gunicorn app:app
-# Añadir variable de entorno: MONGODB_URI = tu connection string
-
 services:
   - type: web
     name: legacyapp
     env: python
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
-    envVars:
-      - key: MONGODB_URI
-        sync: false
-      - key: SECRET_KEY
-        generate: true
