@@ -259,63 +259,105 @@ h3 {
     resize: vertical;
 }
 
-/* Botones */
-.button-group {
-    margin-top: 24px;
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-}
+/* ======================
+   Botones (mejorados)
+   ====================== */
 
 button {
-    padding: 12px 24px;
-    background-color: var(--secondary-color);
-    border: none;
-    border-radius: 6px;
+    padding: 12px 26px;
+    background: linear-gradient(
+        135deg,
+        #3fa9f5,
+        var(--secondary-color)
+    );
+    border: 1px solid #2c80b4;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
-    font-weight: 500;
-    color: white;
-    transition: var(--transition);
+    font-weight: 600;
+    color: #ffffff;
+    transition: all 0.25s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+
+    /* Visibilidad constante */
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
+/* Hover */
 button:hover {
-    background-color: #2980b9;
+    background: linear-gradient(
+        135deg,
+        #3498db,
+        #2471a3
+    );
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    box-shadow:
+        0 6px 14px rgba(0, 0, 0, 0.2);
 }
 
+/* Click */
 button:active {
     transform: translateY(0);
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.2) inset;
 }
 
+/* Accesibilidad: focus visible */
+button:focus-visible {
+    outline: none;
+    box-shadow:
+        0 0 0 3px rgba(52, 152, 219, 0.45),
+        0 6px 14px rgba(0, 0, 0, 0.2);
+}
+
+/* ======================
+   Variantes
+   ====================== */
+
 button.secondary {
-    background-color: #6c757d;
+    background: linear-gradient(135deg, #868e96, #6c757d);
+    border-color: #5a6268;
 }
 
 button.secondary:hover {
-    background-color: #5a6268;
-}
-
-button.danger {
-    background-color: var(--error-color);
-}
-
-button.danger:hover {
-    background-color: #c0392b;
+    background: linear-gradient(135deg, #6c757d, #545b62);
 }
 
 button.success {
-    background-color: var(--success-color);
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    border-color: #1e8449;
 }
 
 button.success:hover {
-    background-color: #219653;
+    background: linear-gradient(135deg, #27ae60, #1e8449);
 }
+
+button.danger {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    border-color: #922b21;
+}
+
+button.danger:hover {
+    background: linear-gradient(135deg, #c0392b, #922b21);
+}
+
+/* ======================
+   Disabled
+   ====================== */
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #adb5bd;
+    border-color: #adb5bd;
+    box-shadow: none;
+}
+
 
 /* Tablas */
 .table-section {
