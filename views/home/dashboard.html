@@ -1,6 +1,7 @@
 {% extends "layouts/base.html" %}
 {% block title %}Dashboard - Task Manager{% endblock %}
 {% block content %}
+<main id="main-content">
 <h1>Task Manager</h1>
 <div class="panel">
     <div class="header">
@@ -26,11 +27,11 @@
             <h3>Nueva/Editar Tarea</h3>
             <form method="post" action="{{ url_for('tasks.add') }}" id="taskForm">
                 <div class="form-group">
-                    <label>Título:</label>
+                    <label for="taskTitle">Título:</label>
                     <input type="text" name="taskTitle" id="taskTitle" required>
                 </div>
                 <div class="form-group">
-                    <label>Descripción:</label>
+                    <label for="taskDescription">Descripción:</label>
                     <textarea name="taskDescription" id="taskDescription" rows="3"></textarea>
                 </div>
                 <div class="form-group">
@@ -44,7 +45,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Prioridad:</label>
+                    <label for="taskPriority">Prioridad:</label>
                     <select name="taskPriority" id="taskPriority">
                         <option>Baja</option>
                         <option>Media</option>
@@ -53,7 +54,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Proyecto:</label>
+                    <label for="taskProject">Proyecto:</label>
                     <select name="taskProject" id="taskProject">
                         {% for p in projects %}
                         <option value="{{ p.id }}">{{ p.name }}</option>
@@ -61,7 +62,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Asignado a:</label>
+                    <label for="taskAssigned">Asignado a:</label>
                     <select name="taskAssigned" id="taskAssigned">
                         <option value="0">Sin asignar</option>
                         {% for u in users %}
@@ -74,7 +75,7 @@
                     <input type="text" name="taskDueDate" id="taskDueDate" placeholder="YYYY-MM-DD">
                 </div>
                 <div class="form-group">
-                    <label>Horas Estimadas:</label>
+                    <label for="taskHours">Horas Estimadas:</label>
                     <input type="number" name="taskHours" id="taskHours" step="0.5">
                 </div>
                 <div class="button-group">
@@ -329,6 +330,7 @@
      data-project-update-url='{{ url_for("projects.update", pid=0) }}'
      data-project-add-url='{{ url_for("projects.add") }}'>
 </div>
+</main>
 {% endblock %}
 
 {% block scripts %}
